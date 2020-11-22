@@ -398,4 +398,4 @@ app.get("/", (req, res) => {
 }).listen(3000);
 
 
-console.log("Listening on PORT 3000");
+console.log("Listening on port 3000");
