@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Admin Profile</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<link href="../img/favicon.ico" rel="icon">
+	<link href="../img/favicon.ico" rel="apple-touch-icon">
+
+	<!-- stylesheet css -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/Style.css">
+</head>
+
+<body data-spy="scroll" data-target=".navbar-collapse">
+
+
+	<!-- header section -->
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 direction" style="display: flex; margin-bottom: 40px;">
+					<img id="photo" src="../img/teamember/img2.jpeg" class="img-responsive img-circle"
+						style="margin: auto; box-shadow: 0px 0px 10px #1bb1dc; max-width: 20%;" alt="img">
+
+					<div class="nameS" style="margin: auto;">
+						<h1 id="name" class="bold shadow name">Muskan Rajpal</h1>
+						<h1 id="expertise" class="white bold shadow">Full Stack Developer</h1>
+						<!-- <ul class="social-icons">
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-google-plus"></a></li>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-github"></a></li>
+
+						</ul> -->
+					</div>
+				</div>
+				<div>
+					<a id="mail" onclick=mail(); class="main" href="#">Hire Now</a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- about and recomendation section -->
+	<section class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="about">
+
+					<h2>About</h2>
+					<p id="about">I believe that content should speak for itself. This is what my writing incorporates.
+						My journey as a content writer began almost 2 years ago.
+						I have written a wide range of articles, blogs, social media copy and web content belonging to
+						different niches like travel, business, health & lifestyle, education, news, technology etc.</p>
+
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<div class="languages">
+					<h2>Skills</h2>
+					<p id="skills"></p>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- education and languages -->
+	<section class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<div class="education">
+					<h2 class="white">Education</h2>
+					<div class="education-content">
+						<h4 id="course" class="education-title accent">Mass Communication/Media Studies</h4>
+						<div class="education-school">
+							<h5>Contact:</h5><span id="email">hello</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<div class="experience">
+					<h2 class="white">Experiences</h2>
+					<p id="exp"></p>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+
+	<!-- footer section -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+					&copy; Copyright <strong>Explify</strong>. All Rights Reserved
+
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script>
+		var mailE;
+		getData2();
+		async function getData2() {
+			console.log(localStorage.getItem("name"));
+
+			const response = await fetch('/edit');
+			const data = await response.json();
+			for (let i = 0; i < data.test.length; i++) {
+
+				if (data.test[i].name === localStorage.getItem("name")) {
+					console.log("ok");
+					var pic = data.test[i].img;
+					document.querySelector("title").innerHTML = `${data.test[i].name} Profile`;
+					document.getElementById("name").innerHTML = data.test[i].name;
+					document.getElementById("course").innerHTML = data.test[i].course;
+					document.getElementById("expertise").innerHTML = data.test[i].expertise;
+					document.getElementById("photo").src = `../../upload/${pic}`;
+					document.getElementById("about").innerHTML = data.test[i].about;
+					document.getElementById("exp").innerHTML = data.test[i].exp;
+					document.getElementById("skills").innerHTML = data.test[i].skills;
+					document.getElementById("email").innerHTML = data.test[i].email;
+					mailE = data.test[i].email;
+
+				}
+				// {
+				// 	console.log("yes");
+				// }else 
+			}
+		}
+		function mail() {
+			document.getElementById("mail").href = `mailto:${mailE}?&subject=Offer%20Letter`;
+		}
+	</script>
+</body>
+
+</html>

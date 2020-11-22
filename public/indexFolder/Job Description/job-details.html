@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <title>Job Description</title>
+
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link href="../img/favicon.ico" rel="icon">
+  <link href="../img/favicon.ico" rel="apple-touch-icon">
+
+</head>
+
+<body>
+
+  <section class="section" id="trainers">
+    <div class="container">
+      <br>
+      <br>
+      <br>
+      <br>
+
+      <div class="row" id="tabs">
+        <div class="col-lg-4">
+          <ul>
+            <li><a href='#tabs-1'><i class="fa fa-cog"></i> Job Description</a></li>
+            <li><a href='#tabs-2'><i class="fa fa-info-circle"></i> About Organization</a></li>
+            <li><a href='#tabs-3'><i class="fa fa-phone"></i> Contact Details</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-8">
+          <section class='tabs-content' style="width: 100%;">
+            <article id='tabs-1'>
+              <h4>Job Description</h4>
+
+              <p id="JobDes"></p>
+            </article>
+
+            <article id='tabs-2'>
+              <h4>About Organization</h4>
+
+              <p class="lead"> <i class="fa fa-map-marker"></i> India </p>
+
+              <p id="Organization"></p>
+            </article>
+
+            <article id='tabs-3'>
+              <h4>Contact Details</h4>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <label>Name</label>
+
+                  <p id="name">John Smith</p>
+                </div>
+                <div class="col-sm-6">
+                  <label>Email</label>
+                  <p id="mail">john@carsales.com</p>
+                </div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="main-button">
+    <a id="mailEE" onclick="mail();" href="#">Apply for this Job</a>
+  </div>
+
+
+
+  <!-- jQuery -->
+  <script src="assets/jquery-2.1.0.min.js"></script>
+
+  <!-- Plugins -->
+  <script src="assets/accordions.js"></script>
+
+  <!-- Global Init -->
+  <script src="assets/custom.js"></script>
+  <script>
+    getData();
+    var mailE;
+    async function getData() {
+      // console.log(localStorage.getItem("name"));
+
+      const response = await fetch('/jobsData');
+      const data = await response.json();
+      for (let i = 0; i < data.test.length; i++) {
+        if (data.test[i]._id === localStorage.getItem("id")) {
+          document.getElementById("JobDes").innerHTML = data.test[i].DesDescription;
+          document.getElementById("Organization").innerHTML = data.test[i].Orgabout;
+          document.getElementById("name").innerHTML = data.test[i].Orgname;
+          document.getElementById("mail").innerHTML = data.test[i].Email;
+          mailE = data.test[i].Email;
+        }
+      }
+    }
+
+    function mail() {
+      document.getElementById("mailEE").href = `mailto:${mailE}?&subject=Job%20Application`;
+    }
+
+  </script>
+</body>
+
+</html>

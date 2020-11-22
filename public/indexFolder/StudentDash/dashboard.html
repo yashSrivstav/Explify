@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dasboard</title>
+    <link href="../img/favicon.ico" rel="icon">
+    <link href="../img/favicon.ico" rel="apple-touch-icon">
+    <meta name="viewport" content="width=device-width, initial-scale="">
+    <link rel=" stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+    <link href="../lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!--Header-->
+    <header id="header">
+
+        <div class="container">
+
+            <div class="logo float-left">
+
+                <h1 class="text-light"><a href="#intro" class="scrollto"><span>EXPLIFY</span></a></h1>
+                <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+            </div>
+
+            <nav class="main-nav float-right d-none d-lg-block">
+                <ul>
+                    <!-- <li class="active"><a href="#intro">Home</a></li> -->
+                    <li><a href="../ProfileUpdateStu/index.html">Settings</a></li>
+                    <li onclick="deleteItems();"><a href="../index.html">Log Out</a></li>
+                </ul>
+            </nav><!-- .main-nav -->
+
+        </div>
+    </header><!-- #header -->
+    <section>
+        <div class="banner text-center">
+            <h1 class="resize">Jobs around you</h1>
+        </div>
+    </section>
+    <div class="search-job text-center">
+        <input onkeypress="finddynamic();" id="search" type="search" class="form-control" placeholder="Search keyword">
+        <!-- <input type="text" class="form-control" placeholder="Organization">
+        <input type="text" class="form-control" placeholder="Location"> -->
+        <input onclick="searchJob();" type="button" class="btn btn-primary" value="Find job">
+
+    </div>
+    <section id="jobs">
+        <div class="container">
+            <h5 Style="margin-bottom: 10px;">Recent Updates</h5>
+            <div id="dynamic">
+
+            </div>
+        </div>
+
+    </section>
+    <script src="../OrganizationDash/js/jquery-2.1.0.min.js"></script>
+    <script src="../lib/mobile-nav/mobile-nav.js"></script>
+
+    <script>
+        var data;
+        var mainDiv = document.getElementById("dynamic");
+        function setID(e) {
+            localStorage.setItem("id", e.target.id);
+        }
+        getData();
+        async function getData() {
+            // console.log(localStorage.getItem("name"));
+
+            const response = await fetch('/jobsData');
+            data = await response.json();
+            for (let i = 0; i < data.test.length; i++) {
+
+                var newDiv = document.createElement("div");
+                newDiv.classList.add("company-details");
+
+
+                var Div2 = document.createElement("div");
+                Div2.classList.add("job-update");
+
+                var headname = document.createElement("h4");
+
+                var bold = document.createElement("b");
+                bold.innerHTML = data.test[i].Designation
+                headname.appendChild(bold)
+                Div2.appendChild(headname)
+
+                var para = document.createElement("p");
+                para.innerHTML = data.test[i].Orgname;
+                Div2.appendChild(para);
+
+                var icon = document.createElement("i");
+                icon.setAttribute("class", "fa fa-inr");
+                Div2.appendChild(icon);
+
+                var span = document.createElement("span");
+                span.innerHTML = data.test[i].Stipend;
+                Div2.appendChild(span);
+
+                var br = document.createElement("br");
+                Div2.appendChild(br);
+
+                var para2 = document.createElement("p");
+                para2.innerHTML = `Skills Required: ${data.test[i].SkillsReq}`;
+                Div2.appendChild(para2);
+                newDiv.appendChild(Div2);
+
+                var Div3 = document.createElement("div");
+                Div3.classList.add("apply-btn");
+                newDiv.appendChild(Div3);
+
+                var anchor = document.createElement("a");
+                anchor.href = "../Job Description/job-details.html";
+
+                var button = document.createElement("button");
+                button.setAttribute("class", "btn btn-primary");
+                button.innerHTML = "Apply";
+                button.setAttribute("id", `${data.test[i]._id}`);
+                button.onclick = setID;
+                anchor.appendChild(button);
+                Div3.appendChild(anchor);
+
+
+                mainDiv.appendChild(newDiv);
+
+            }
+        }
+
+        function deleteItems() {
+            localStorage.setItem("email", "");
+            localStorage.setItem("id", "")
+        }
+
+        function searchJob() {
+            const div = document.querySelectorAll('.company-details');
+            for (let i = 0; i < div.length; i++) {
+                div[i].classList.add('visible');
+            }
+
+            for (let i = 0; i < div.length; i++) {
+
+                if (div[i].textContent.toLowerCase().includes(document.getElementById("search").value.toLowerCase())) {
+                    div[i].classList.remove("visible");
+                }
+
+            }
+        }
+        function finddynamic() {
+            const div = document.querySelectorAll('.company-details');
+            for (let i = 0; i < div.length; i++) {
+                div[i].classList.add('visible');
+            }
+
+            for (let i = 0; i < div.length; i++) {
+
+                if (div[i].textContent.toLowerCase().includes(document.getElementById("search").value.toLowerCase())) {
+                    div[i].classList.remove("visible");
+                }
+
+            }
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>

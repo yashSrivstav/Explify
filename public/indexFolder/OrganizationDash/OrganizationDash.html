@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+
+    <title>Organization Dashboard</title>
+    <link href="../img/favicon.ico" rel="icon">
+    <link href="../img/favicon.ico" rel="apple-touch-icon">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="../lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!--Header-->
+    <header id="header">
+
+        <div class="container">
+
+            <div class="logo float-left">
+
+                <h1 class="text-light"><a href="#intro" class="scrollto"><span>EXPLIFY</span></a></h1>
+                <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+            </div>
+
+            <nav class="main-nav float-right d-none d-lg-block">
+                <ul>
+                    <!-- <li class="active"><a href="#intro">Home</a></li> -->
+                    <li><a href="../ProfileOrg/CreateJob.html">Create a Job</a></li>
+                    <li><a href="../ProfileOrg/accountSettings.html">Settings</a></li>
+                    <li onclick="deleteItems();"><a href="../index.html">Log Out</a></li>
+                </ul>
+            </nav><!-- .main-nav -->
+
+        </div>
+    </header><!-- #header -->
+
+    <!-- ***** Call to Action Start ***** -->
+    <section class="section section-bg" id="call-to-action"
+        style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="cta-content">
+                        <br>
+                        <br>
+                        <h2>Our <em>Students</em></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Call to Action End ***** -->
+
+    <!-- ***** Fleet Starts ***** -->
+    <section class="section" id="trainers">
+        <div class="container">
+            <br>
+            <br>
+            <div class="col-lg-8">
+                <div id="dynamic" class="row">
+                    <!-- dynamic from backend -->
+                </div>
+            </div>
+        </div>
+
+
+
+        <br>
+
+        <!-- <nav>
+            <ul class="pagination pagination-lg justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav> -->
+
+        </div>
+        <!-- jQuery -->
+        <script src="js/jquery-2.1.0.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="js/bootstrap.min.js"></script>
+
+        <!-- Plugins -->
+        <script src="js/accordions.js"></script>
+
+        <!-- Global Init -->
+        <script src="js/custom.js"></script>
+
+
+        <script src="../lib/mobile-nav/mobile-nav.js"></script>
+
+
+        <script>
+            var mainDiv = document.getElementById("dynamic");
+            getData2();
+            async function getData2() {
+                // console.log(localStorage.getItem("name"));
+
+                const response = await fetch('/edit');
+                const data = await response.json();
+                for (let i = 0; i < data.test.length; i++) {
+
+                    var newDiv = document.createElement("div");
+                    newDiv.classList.add("col-md-6");
+
+                    var Div2 = document.createElement("div");
+                    Div2.classList.add("trainer-item");
+                    newDiv.appendChild(Div2);
+
+                    var Div3 = document.createElement("div");
+                    Div3.classList.add("image-thumb");
+                    Div2.appendChild(Div3);
+
+                    var image = document.createElement("img");
+                    image.src = `../../upload/${data.test[i].img}`;
+                    Div3.appendChild(image);
+
+                    var Div4 = document.createElement("div");
+                    Div4.classList.add("down-content");
+                    Div2.appendChild(Div4);
+
+                    var anchor = document.createElement("a");
+                    anchor.href = "../StudentProfileView/StudentProfileView.html";
+                    Div4.appendChild(anchor);
+
+                    var headname = document.createElement("h4");
+                    headname.innerHTML = data.test[i].name;
+                    anchor.appendChild(headname);
+
+                    var paragraph = document.createElement("p");
+                    paragraph.innerHTML = data.test[i].expertise;
+                    Div4.appendChild(paragraph);
+
+                    mainDiv.appendChild(newDiv);
+
+                }
+            }
+            window.onclick = e => {
+                if (e.target.tagName === "H4") {
+                    // console.log(e.target.innerText);
+                    localStorage.setItem("name", e.target.innerText);
+                }
+                else {
+                    console.log(e.target.tagName);
+                }
+            }
+            function deleteItems() {
+                localStorage.setItem("email", "");
+                localStorage.setItem("name", "")
+            }
+        </script>
+</body>
+
+</html>
