@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
-mongoose.connect('mongodb://localhost:27017/StudentDB', {
+mongoose.connect('mongodb://localhost:27017/ExplifyDB', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -30,28 +30,64 @@ app.post("/SignUp", (req, res) => {
     var email = req.body.email;
     var password = req.body.pass;
     var re = req.body.re_pass;
-    if (password === re) {
-        var data = {
-            "name": name,
-            "email": email,
-            "password": password
+
+    db.collection('students').findOne({ email: email }, function (err, foundObject) {
+        if (err) {
+            console.log(err);
+            res.status(500).send();
         }
-
-
-        db.collection('students').insertOne(data, (err, collection) => {
-            if (err) {
-                throw err;
+        else {
+            if (foundObject != null) {
+                alert("Email already exist");
+                return res.redirect('/indexFolder/SignUp-SignIN/SignUp.html');
             }
-            console.log("Record Inserted Successfully");
-        });
+            else {
+                if (password === re) {
+                    var data = {
+                        "name": name,
+                        "email": email,
+                        "password": password
+                    }
 
-        return res.redirect('/indexFolder/ProfileUpdateStu/oneTimeUpdation.html')
-    }
-    else {
-        alert("Password dosn't match");
-        return res.redirect('/indexFolder/SignUp-SignIN/SignUp.html');
-    }
 
+                    db.collection('students').insertOne(data, (err, collection) => {
+                        if (err) {
+                            throw err;
+                        }
+                        console.log("Record Inserted Successfully");
+                    });
+
+                    return res.redirect('/indexFolder/ProfileUpdateStu/oneTimeUpdation.html')
+                }
+                else {
+                    alert("Password dosn't match");
+                    return res.redirect('/indexFolder/SignUp-SignIN/SignUp.html');
+                }
+            }
+        }
+    })
+})
+
+app.post("/ContactUs", (req, res) => {
+    var name = req.body.name;
+    var email = req.body.email;
+    var subject = req.body.subject;
+    var message = req.body.message;
+
+    var data = {
+        "name": name,
+        "email": email,
+        "subject": subject,
+        "message": message
+    }
+    db.collection('contactUs').insertOne(data, (err, collection) => {
+        if (err) {
+            throw err;
+        }
+        console.log("Record Inserted Successfully");
+    });
+    alert("Message Sent Successfully");
+    return res.redirect('/indexFolder/index.html');
 
 })
 
@@ -60,27 +96,41 @@ app.post("/SignUporg", (req, res) => {
     var email = req.body.email;
     var password = req.body.pass;
     var re = req.body.re_pass;
-    if (password === re) {
-        var data = {
-            "name": name,
-            "email": email,
-            "password": password
+    db.collection('organizations').findOne({ email: email }, function (err, foundObject) {
+        if (err) {
+            console.log(err);
+            res.status(500).send();
         }
-
-
-        db.collection('organizations').insertOne(data, (err, collection) => {
-            if (err) {
-                throw err;
+        else {
+            if (foundObject != null) {
+                alert("Email already exist");
+                return res.redirect('/indexFolder/SignUp-SignIN/SignUporg.html');
             }
-            console.log("Record Inserted Successfully");
-        });
+            else {
+                if (password === re) {
+                    var data = {
+                        "name": name,
+                        "email": email,
+                        "password": password
+                    }
 
-        return res.redirect('/indexFolder/OrganizationDash/OrganizationDash.html')
-    }
-    else {
-        alert("Password dosn't match");
-        return res.redirect('/indexFolder/SignUp-SignIN/SignUporg.html');
-    }
+
+                    db.collection('organizations').insertOne(data, (err, collection) => {
+                        if (err) {
+                            throw err;
+                        }
+                        console.log("Record Inserted Successfully");
+                    });
+
+                    return res.redirect('/indexFolder/OrganizationDash/OrganizationDash.html')
+                }
+                else {
+                    alert("Password dosn't match");
+                    return res.redirect('/indexFolder/SignUp-SignIN/SignUporg.html');
+                }
+            }
+        }
+    })
 
 
 })
@@ -398,4 +448,4 @@ app.get("/", (req, res) => {
 }).listen(3000);
 
 
-console.log("Listening on port 3000");
+console.log("Listening on PORT 3000");
