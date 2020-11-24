@@ -125,7 +125,7 @@ app.post("/SignUporg", (req, res) => {
                     return res.redirect('/indexFolder/OrganizationDash/OrganizationDash.html')
                 }
                 else {
-                    alert("Password dosn't match");
+                    alert("Password doesn't Match");
                     return res.redirect('/indexFolder/SignUp-SignIN/SignUporg.html');
                 }
             }
